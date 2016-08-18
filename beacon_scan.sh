@@ -32,7 +32,7 @@ echo ""
 echo "Going"
 ##diff --new-line-format='%L' kdawg/found.txt kdawg/previous.txt #> kdawg/going.txt
 diff --suppress-common-lines /usr/src/app/list-beacons/kdawg/found.txt /usr/src/app/list-beacons/kdawg/previous.txt | grep ">" | cut -d'>' -f 2 > /usr/src/app/list-beacons/kdawg/going.txt
-cat kdawg/going.txt
+cat /usr/src/app/list-beacons/kdawg/going.txt
 echo ""
 
 #Do the stuff with the coming/going texts. 
