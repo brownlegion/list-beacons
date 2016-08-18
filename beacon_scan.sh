@@ -4,6 +4,7 @@
 COUNTER=1
 while [ $COUNTER -gt 0 ]; do
 echo ""
+date
 echo "Scan "$COUNTER
 echo ""
 
