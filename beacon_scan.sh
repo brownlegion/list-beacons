@@ -1,6 +1,6 @@
 #!/bin/bash
 #iBeacon search script
-./clear.sh
+/usr/src/app/list-beacons/clear.sh
 COUNTER=1
 while [ $COUNTER -gt 0 ]; do
 echo ""
@@ -42,8 +42,8 @@ awk -v major="major=" -v minor=",minor=" -v device=",device=\"${HOSTNAME}\"" '{p
 #echo "influx -execute \"insert beacon,state=In "${beacondata}"\" -database=beaconDatabase" > kdawg/intemp.txt
 #bash kdawg/intemp.txt
 #echo "http://159.203.15.175/filemaker/beaconStatusTest.php?${beacondata}"
-echo "beacon,state=In "${beacondata}"" > kdawg/intemp.txt
-curl -i -XPOST 'http://localhost:8086/write?db=beaconDatabase' --data-binary @kdawg/intemp.txt
+echo "beacon,state=In "${beacondata}"" > /usr/src/app/list-beacons/kdawg/intemp.txt
+curl -i -XPOST 'http://localhost:8086/write?db=beaconDatabase' --data-binary @/usr/src/app/list-beacons/kdawg/intemp.txt
 done
 
 echo ""
@@ -53,8 +53,8 @@ awk -v major="major=" -v minor=",minor=" -v device=",device=\"${HOSTNAME}\"" '{p
 #echo "influx -execute \"insert beacon,state=Out "${beacondata}"\" -database=beaconDatabase" > kdawg/outtemp.txt
 #bash kdawg/outtemp.txt
 #echo "http://159.203.15.175/filemaker/beaconStatusTest.php?${beacondata}"
-echo "beacon,state=Out "${beacondata}"" > kdawg/outtemp.txt
-curl -i -XPOST 'http://localhost:8086/write?db=beaconDatabase' --data-binary @kdawg/outtemp.txt
+echo "beacon,state=Out "${beacondata}"" > /usr/src/app/list-beacons/kdawg/outtemp.txt
+curl -i -XPOST 'http://localhost:8086/write?db=beaconDatabase' --data-binary @/usr/src/app/list-beacons/kdawg/outtemp.txt
 done
 let COUNTER=COUNTER+1
 done
