@@ -11,7 +11,7 @@ echo ""
 
 
 cat /usr/src/app/list-beacons/kdawg/found.txt > /usr/src/app/list-beacons/kdawg/previous.txt
-sudo node /usr/src/app/list-beacons/index.js > /usr/src/app/list-beacons/kdawg/allbeacons.txt &
+sudo node /usr/src/app/list-beacons/scan_everything.js > /usr/src/app/list-beacons/kdawg/allbeacons.txt &
 
 TASK_PID=$!
 sleep 10
