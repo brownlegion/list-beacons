@@ -50,6 +50,7 @@ Bleacon.startScanning()
 
 This will scan for all beacons in the area, but will only output any beacons that have the matching uuid of `fda50693a4e24fb1afcfc6eb07647825` to the console. 
 
+
 ```
 $ node scan_everything.js
 'use strict'
@@ -85,6 +86,6 @@ Bleacon.startScanning()
 Same as `index.js`, however, thre is no uuid check; it will scan everything and output that to the console.
 
 # Updating Influx Database
-`beacon_scan.sh` will scan the entire area, determine any old and new beacons, then send that data to influx (or CURL the data to Filemaker). This works.
+`beacon_scan.sh` will scan the entire area, determine any old and new beacons, then send that data to Influx (or CURL the data to Filemaker). This works.
 
-There are also a couple of scripts there that are used as a test. `scan_everything_once.sh` will scan all the beacons in the surrounding area (using `scan_everything.js`) one time for 10 seconds and send those results to Influx. `scan_once.sh` does the same thing, but uses `index.js` to do the scanning, thereby only sending beacons with a uuid of `fda50693a4e24fb1afcfc6eb07647825` to influx. 
+There are also a couple of scripts there that are used as a test. `scan_everything_once.sh` will scan all the beacons in the surrounding area (using `scan_everything.js`) one time for 10 seconds and send those results to Influx. `scan_once.sh` does the same thing, but uses `index.js` to do the scanning, thereby only sending beacons with a uuid of `fda50693a4e24fb1afcfc6eb07647825` to Influx. 
