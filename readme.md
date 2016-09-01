@@ -7,7 +7,7 @@ A simple Node.js utility to list nearby iBeacons.
 # Setup
 
 Clone this repo, then `cd` into it and run `npm install` to install its dependencies.
-(Done already in the testfleet repository's `starteverything.sh` script.)
+(Done already in the testfleet repository's [starteverything.sh] (https://github.com/brownlegion/testfleet/blob/master/starteverything.sh) script.)
 
 # Javascript Beacon Scanners
 
