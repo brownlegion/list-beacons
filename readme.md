@@ -1,3 +1,5 @@
+Note, this was forked from https://github.com/PunchThrough/list-beacons. My own files and edits are in this repository.
+
 # List Beacons
 
 A simple Node.js utility to list nearby iBeacons.
@@ -5,36 +7,84 @@ A simple Node.js utility to list nearby iBeacons.
 # Setup
 
 Clone this repo, then `cd` into it and run `npm install` to install its dependencies.
+(Done already in the testfleet repository's starteverything.sh script.)
 
-# Usage
+# Javascript Beacon Scanners
 
-Run `node index.js` to start scanning for nearby iBeacons. You'll see the UUID, major, and minor values of nearby iBeacons as they advertise:
+Running node index.js or scan_everyting.js (as sudo) will start scanning the area. THe results are placed in text files in the kdawg directory.
 
 ```
 $ node index.js
-0: Listening for iBeacons...
-388: ad0249b25eaf458fba702d487818ce2f | 006f | 8241
-768: ad0249b25eaf458fba702d487818ce2f | 006f | 8241
-2750: ad0249b25eaf458fba702d487818ce2f | 006f | 8241
-3086: ad0249b25eaf458fba702d487818ce2f | 006f | 8241
-3822: a495deadc5b14b44b5121370f02d74de | beef | cafe <-- Bean!
-3989: a495deadc5b14b44b5121370f02d74de | beef | cafe <-- Bean!
-4846: ad0249b25eaf458fba702d487818ce2f | 006f | 8241
-5403: ad0249b25eaf458fba702d487818ce2f | 006f | 8241
+'use strict'
+
+const Bleacon = require('bleacon')
+
+const startedAt = new Date().getTime()
+
+function isBean(beacon) {
+  return beacon.uuid.match('^fda50693a4e24fb1afcfc6eb07647825$')
+}
+
+function pad(str, len) {
+  while (str.length < len) {
+    str = '0' + str
+  }
+  return str
+}
+
+Bleacon.on('discover', (beacon) => {
+  const elapsed = new Date().getTime() - startedAt
+  const uuid = beacon.uuid
+  const major = pad(beacon.major.toString(16), 4)
+  const minor = pad(beacon.minor.toString(16), 4)
+  const intmajor = parseInt(beacon.major.toString(16), 16)
+  const intminor = parseInt(beacon.minor.toString(16), 16)
+  let info = `${elapsed}: ${uuid} | ${intmajor} | ${intminor}`
+  if (isBean(beacon)) {
+    console.log(info)
+  }
+})
+Bleacon.startScanning()
+
 ```
 
-The script searches for iBeacons that match the following pattern (`_` can be any value):
+This will scan for all beacons in the area, but will only output any beacons that have the matching uuid of fda50693a4e24fb1afcfc6eb07647825 to the console. 
 
 ```
-a495____c5b14b44b5121370f02d74de
+$ node scan_everything.js
+'use strict'
+
+const Bleacon = require('bleacon')
+
+const startedAt = new Date().getTime()
+
+function isBean(beacon) {
+  return beacon.uuid.match('^fda50693a4e24fb1afcfc6eb07647825$')
+}
+
+function pad(str, len) {
+  while (str.length < len) {
+    str = '0' + str
+  }
+  return str
+}
+
+Bleacon.on('discover', (beacon) => {
+  const elapsed = new Date().getTime() - startedAt
+  const uuid = beacon.uuid
+  const major = pad(beacon.major.toString(16), 4)
+  const minor = pad(beacon.minor.toString(16), 4)
+  const intmajor = parseInt(beacon.major.toString(16), 16)
+  const intminor = parseInt(beacon.minor.toString(16), 16)
+  let info = `${elapsed}: ${uuid} | ${intmajor} | ${intminor}`
+  console.log(info)
+})
+Bleacon.startScanning()
 ```
 
-If it finds a matching iBeacon, it marks it as a [LightBlue Bean](http://punchthrough.com/bean).
+Same as index.js, however, thre is no uuid check; it will scan everything and output that to the console.
 
-Since Beans can only set those 16 bits of their iBeacon UUID, they will always match the above pattern. However, nothing stops other iBeacons from using a similar UUID and being marked as Beans.
+# Updating Influx Database
+beacon_scan.sh will scan the entire area, determine any old and new beacons, then send that data to influx (or CURL the data to Filemaker). This works.
 
-This script is known to work with Node 5.1.1 on OS X 10.11.1.
-
-# License
-
-MIT
+There are also a couple of scripts there that are used as a test. scan_everything_once.sh will scan all the beacons in the surrounding area (using scan_everything.js) one time for 10 seconds and send those results to Influx. scan_once.sh does the same thing, but uses index.js to do the scanning, thereby only sending beacons with a uuid of fda50693a4e24fb1afcfc6eb07647825 to influx. 
