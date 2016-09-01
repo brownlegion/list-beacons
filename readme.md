@@ -88,4 +88,6 @@ Same as `index.js`, however, thre is no uuid check; it will scan everything and 
 # Updating Influx Database
 `beacon_scan.sh` will scan the entire area, determine any old and new beacons, then send that data to Influx (or CURL the data to Filemaker). This works.
 
-There are also a couple of scripts there that are used as a test. `scan_everything_once.sh` will scan all the beacons in the surrounding area (using `scan_everything.js`) one time for 10 seconds and send those results to Influx. `scan_once.sh` does the same thing, but uses `index.js` to do the scanning, thereby only sending beacons with a uuid of `fda50693a4e24fb1afcfc6eb07647825` to Influx. 
+If you want to test to make sure everything works, then run the `scan_once.sh` script. This will use `index.js` to scan for 10 seconds and update Influx. 
+
+`clear.sh` is called at the beginning of every script to make sure the result files in the kdawg directory are emtpy, just in case. `package.json` and the `LICENSE` were provided by PunchThrough. Bless those guys.
