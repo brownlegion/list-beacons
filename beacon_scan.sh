@@ -45,7 +45,7 @@ awk -v major="major=" -v minor=",minor=" -v device=",device=\"${HOSTNAME}\"" '{p
 #echo "http://159.203.15.175/filemaker/beaconStatusTest.php?${beacondata}"
 #This is used for CURLing to an Influx database.
 echo "beacon,state=In "${beacondata}"" > /usr/src/app/list-beacons/kdawg/intemp.txt
-curl -i -XPOST 'http://localhost:8086/write?db=beaconDatabase' --data-binary @/usr/src/app/list-beacons/kdawg/intemp.txt
+curl -i -XPOST 'http://localhost:80/write?db=beaconDatabase' --data-binary @/usr/src/app/list-beacons/kdawg/intemp.txt
 done
 
 echo ""
@@ -56,7 +56,7 @@ awk -v major="major=" -v minor=",minor=" -v device=",device=\"${HOSTNAME}\"" '{p
 #echo "http://159.203.15.175/filemaker/beaconStatusTest.php?${beacondata}"
 #This is used for CURLing to an Influx database.
 echo "beacon,state=Out "${beacondata}"" > /usr/src/app/list-beacons/kdawg/outtemp.txt
-curl -i -XPOST 'http://localhost:8086/write?db=beaconDatabase' --data-binary @/usr/src/app/list-beacons/kdawg/outtemp.txt
+curl -i -XPOST 'http://localhost:80/write?db=beaconDatabase' --data-binary @/usr/src/app/list-beacons/kdawg/outtemp.txt
 done
 let COUNTER=COUNTER+1
 done
